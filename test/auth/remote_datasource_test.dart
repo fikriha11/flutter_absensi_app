@@ -96,43 +96,97 @@ void main() async {
   });
 
   group('Remote DataSource Impl', () {
-    test('login Success', () async {
-      when(mockClient.post(urlLogin, body: {
-        "email": email,
-        "password": password,
-      })).thenAnswer(
-        (_) async => http.Response(jsonEncode(fakeDataJson), 200),
-      );
-      try {
-        var response = await loginRemoteDataSourceImpl.login(email, password);
-        expect(response, fakeUserModel);
-      } catch (e) {
-        fail('Tidak Bisa Menerima Data');
-      }
+    group("Login", () {
+      test('Success', () async {
+        when(mockClient.post(urlLogin, body: {
+          "email": email,
+          "password": password,
+        })).thenAnswer(
+          (_) async => http.Response(jsonEncode(fakeDataJson), 200),
+        );
+        try {
+          var response = await loginRemoteDataSourceImpl.login(email, password);
+          expect(response, fakeUserModel);
+        } on StatusCodeException catch (e) {
+          fail("Tidak Mungkin Terjadi");
+        } catch (e) {
+          fail('Tidak Bisa Menerima Data');
+        }
+      });
+      test('Failed 401', () async {
+        when(mockClient.post(urlLogin, body: {
+          "email": email,
+          "password": password,
+        })).thenAnswer(
+          (_) async => http.Response(
+              jsonEncode({"message": "Invalid credentials"}), 401),
+        );
+        try {
+          await loginRemoteDataSourceImpl.login(email, password);
+          fail('Tidak Mungkin Terjadi');
+        } on StatusCodeException catch (e) {
+          expect(e, const StatusCodeException(message: "Invalid Credential"));
+        } catch (e) {
+          fail('Tidak Bisa Menerima Data');
+        }
+      });
+      test('Failed ', () async {
+        when(mockClient.post(urlLogin, body: {
+          "email": email,
+          "password": password,
+        })).thenThrow(const GeneralExeption(message: "Server Error"));
+        try {
+          await loginRemoteDataSourceImpl.login(email, password);
+          fail('Tidak Mungkin Terjadi');
+        } on StatusCodeException catch (e) {
+          fail("Tidak Mungkin Terjadi");
+        } catch (e) {
+          expect(e, const GeneralExeption(message: "Server Error"));
+        }
+      });
     });
-    test('login Failed 404', () async {
-      when(mockClient.post(urlLogin, body: {
-        "email": email,
-        "password": password,
-      })).thenThrow(const GeneralExeption(message: "Server Error"));
-      try {
-        await loginRemoteDataSourceImpl.login(email, password);
-        fail('Tidak Mungkin Terjadi');
-      } catch (e) {
-        expect(e, const GeneralExeption(message: "Server Error"));
-      }
-    });
-    test('login Failed ', () async {
-      when(mockClient.post(urlLogin, body: {
-        "email": email,
-        "password": password,
-      })).thenThrow(const GeneralExeption(message: "Cannot Get Data"));
-      try {
-        await loginRemoteDataSourceImpl.login(email, password);
-        fail('Tidak Mungkin Terjadi');
-      } catch (e) {
-        expect(e, const GeneralExeption(message: "Cannot Get Data"));
-      }
+    group("Logout", () {
+      test("Success", () async {
+        when(mockClient.post(urlLogout, headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token"
+        })).thenAnswer((_) async =>
+            http.Response(jsonEncode({"message": "Logged out"}), 200));
+        try {
+          var response = await loginRemoteDataSourceImpl.logout(token!);
+          expect(response, true);
+        } catch (e) {
+          fail("Tidak Mungkin Terjadi");
+        }
+      });
+
+      test('Failed 401', () async {
+        when(mockClient.post(urlLogout, headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token"
+        })).thenAnswer(
+          (_) async =>
+              http.Response(jsonEncode({"message": "Unauthenticated"}), 401),
+        );
+        try {
+          await loginRemoteDataSourceImpl.logout(token!);
+          fail('Tidak Mungkin Terjadi');
+        } catch (e) {
+          expect(e, const StatusCodeException(message: "Unauthenticated"));
+        }
+      });
+      test('Failed ', () async {
+        when(mockClient.post(urlLogout, headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token"
+        })).thenThrow(const GeneralExeption(message: "Server Error"));
+        try {
+          await loginRemoteDataSourceImpl.logout(token!);
+          fail('Tidak Mungkin Terjadi');
+        } catch (e) {
+          expect(e, const GeneralExeption(message: "Server Error"));
+        }
+      });
     });
   });
 }

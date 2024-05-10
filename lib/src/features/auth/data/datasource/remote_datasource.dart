@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_absensi_app/src/core/error/exception.dart';
 import 'package:flutter_absensi_app/src/features/auth/data/model/user_model.dart';
-import 'package:flutter_absensi_app/src/features/auth/domain/entities/user_entity.dart';
 import 'package:http/http.dart' as http;
 
 abstract class LoginRemoteDataSource {
@@ -39,7 +38,6 @@ class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {
       "Authorization": "Bearer $token"
     });
     if (response.statusCode == 200) {
-      Map<String, dynamic> dataBody = json.decode(response.body);
       return true;
     } else if (response.statusCode == 401) {
       throw const StatusCodeException(message: "Unauthenticated");

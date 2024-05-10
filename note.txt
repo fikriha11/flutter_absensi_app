@@ -1,25 +1,11 @@
-data: Direktori ini berisi semua kode yang terkait dengan akses data, seperti pengambilan data dari API, basis data lokal, atau penyimpanan berkas. Biasanya, di sini Anda akan menemukan implementasi repository, data models, dan sumber data eksternal.
+// Generate Coverage
 
-domain: Direktori ini berisi kode yang mewakili aturan bisnis atau domain aplikasi Anda. Ini adalah bagian yang paling inti dari aplikasi Anda dan tidak tergantung pada platform atau implementasi spesifik. Di sini, Anda akan menemukan definisi entitas, use case (interactors), dan kontrak repositori.
-
-application: Direktori ini berisi kode yang bertanggung jawab untuk mengatur alur logika aplikasi. Ini menghubungkan layer domain dengan layer presentasi. Di sini, Anda akan menemukan implementasi use case (interactors) dan objek DTO (Data Transfer Objects) jika diperlukan.
-
-presentation: Ini adalah layer tertinggi dalam aplikasi Anda yang bertanggung jawab untuk menampilkan UI dan berinteraksi dengan pengguna. Di sini, Anda akan menemukan kode UI, state management, dan manajemen rute.
-Untuk setiap direktori, berikut adalah beberapa contoh kode yang mungkin Anda temui:
-
-    data:
-        Repository implementations
-        Data models (entitas)
-        Data sources (API clients, database access)
-    domain:
-        Entity definitions (entitas)
-        Use case (interactors) interfaces
-        Repository interfaces
-    application:
-        Use case (interactors) implementations
-        DTOs (Data Transfer Objects) jika perlu
-        Mapper functions untuk mengonversi antara entitas domain dan DTOs
-    presentation:
-        UI widgets (screens, widgets)
-        State management (dengan Riverpod, Provider, Bloc, dll.)
-        Rute navigasi (dengan Navigator, Get, dll.)
+- flutter clean
+- flutter pub Get
+- dart run build_runner build --delete-conflicting-outputs
+- flutter test --machine > test.output
+- flutter test --coverage (all)
+- flutter test test/auth --coverage (spesifik)
+- genhtml coverage/lcov.info -o coverage/html --legend -t "flutter absensi app by Fikri Haikal" --function-coverage
+- open coverage/html/index.html
+- lcov --remove coverage/lcov.info "lib/src/core/error/*" "lib/src/features/auth/data/model/*" -o coverage/lcov.info
