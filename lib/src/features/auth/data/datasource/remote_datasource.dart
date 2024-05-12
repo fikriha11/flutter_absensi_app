@@ -3,17 +3,17 @@ import 'package:flutter_absensi_app/src/core/error/exception.dart';
 import 'package:flutter_absensi_app/src/features/auth/data/model/user_model.dart';
 import 'package:http/http.dart' as http;
 
-abstract class LoginRemoteDataSource {
+abstract class AuthRemoteDataSource {
   Future<UserModel> login(String username, String password);
-  Future logout(String token);
+  Future<bool> logout(String token);
 }
 
-class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final http.Client client;
-  LoginRemoteDataSourceImpl({required this.client});
+  AuthRemoteDataSourceImpl({required this.client});
   @override
   Future<UserModel> login(String email, String password) async {
-    Uri url = Uri.parse('http://127.0.0.1:8000/api/login');
+    Uri url = Uri.parse('http://192.168.1.104:8000/api/login');
     var response = await client.post(url, body: {
       "email": email,
       "password": password,
@@ -31,11 +31,11 @@ class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {
   }
 
   @override
-  Future<bool> logout(String token) async {
-    Uri url = Uri.parse('http://127.0.0.1:8000/api/logout');
+  Future<bool> logout(String? token) async {
+    Uri url = Uri.parse('http://192.168.1.104:8000/api/logout');
     var response = await client.post(url, headers: {
       "Accept": "application/json",
-      "Authorization": "Bearer $token"
+      "Authorization": "Bearer ${token ?? ""}"
     });
     if (response.statusCode == 200) {
       return true;

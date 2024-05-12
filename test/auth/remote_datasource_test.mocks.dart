@@ -59,11 +59,11 @@ class _FakeStreamedResponse_2 extends _i1.SmartFake
         );
 }
 
-/// A class which mocks [LoginRemoteDataSource].
+/// A class which mocks [AuthRemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLoginRemoteDataSource extends _i1.Mock
-    implements _i4.LoginRemoteDataSource {
+class MockAuthRemoteDataSource extends _i1.Mock
+    implements _i4.AuthRemoteDataSource {
   @override
   _i5.Future<_i2.UserModel> login(
     String? username,

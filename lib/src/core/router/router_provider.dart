@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_app/src/features/auth/presentation/page/login_screen.dart';
 import 'package:flutter_absensi_app/src/features/history/presentation/pages/history_screen.dart';
-import 'package:flutter_absensi_app/src/features/home/presentation/page/home_screen.dart';
+import 'package:flutter_absensi_app/src/features/home/presentation/page/attendance_page.dart';
+import 'package:flutter_absensi_app/src/features/home/presentation/page/home_page.dart';
 import 'package:flutter_absensi_app/src/features/profile/presentation/pages/profile_screen.dart';
 import 'package:flutter_absensi_app/src/features/setting/presentation/pages/setting_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -23,8 +24,7 @@ final GoRouter routerProvider = GoRouter(
     GoRoute(
       path: '/login',
       name: LoginScreen.routerName,
-      pageBuilder: (context, state) =>
-          const NoTransitionPage(child: LoginScreen()),
+      pageBuilder: (context, state) => NoTransitionPage(child: LoginScreen()),
     ),
     StatefulShellRoute.indexedStack(
         builder: (context, state, navigationSHell) {
@@ -66,10 +66,16 @@ final GoRouter routerProvider = GoRouter(
                   path: '/profile',
                   name: ProfileScreen.routerName,
                   pageBuilder: (context, state) =>
-                      const NoTransitionPage(child: ProfileScreen()),
+                      NoTransitionPage(child: ProfileScreen()),
                 ),
               ]),
-        ])
+        ]),
+    GoRoute(
+      path: '/attendance',
+      name: AttendancePage.routerName,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: AttendancePage()),
+    )
   ],
 );
 

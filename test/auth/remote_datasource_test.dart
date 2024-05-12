@@ -8,13 +8,13 @@ import 'package:mockito/annotations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
-@GenerateNiceMocks([MockSpec<LoginRemoteDataSource>(), MockSpec<http.Client>()])
+@GenerateNiceMocks([MockSpec<AuthRemoteDataSource>(), MockSpec<http.Client>()])
 import 'remote_datasource_test.mocks.dart';
 
 void main() async {
-  var loginRemoteDataSource = MockLoginRemoteDataSource();
+  var loginRemoteDataSource = MockAuthRemoteDataSource();
   MockClient mockClient = MockClient();
-  var loginRemoteDataSourceImpl = LoginRemoteDataSourceImpl(client: mockClient);
+  var loginRemoteDataSourceImpl = AuthRemoteDataSourceImpl(client: mockClient);
 
   var urlLogin = Uri.parse("http://127.0.0.1:8000/api/login");
   var urlLogout = Uri.parse("http://127.0.0.1:8000/api/logout");
