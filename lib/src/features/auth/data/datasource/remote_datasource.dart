@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> login(String username, String password);
-  Future<bool> logout(String token);
+  Future logout(String token);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {

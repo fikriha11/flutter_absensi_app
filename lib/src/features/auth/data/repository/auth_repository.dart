@@ -5,8 +5,8 @@ import 'package:flutter_absensi_app/src/features/auth/data/model/user_model.dart
 import 'package:objectbox/objectbox.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../../../data/datasource/local_datasource.dart';
 import '../../domain/entities/user_entity.dart';
-import '../datasource/local_datasource.dart';
 
 abstract class AuthRepository {
   Future<Either<Exception, UserModel>> login(String email, String password);
@@ -16,8 +16,7 @@ abstract class AuthRepository {
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSourceImpl remoteDataSource =
       AuthRemoteDataSourceImpl(client: http.Client());
-  final AuthLocalDataSourceImpl authLocalDataSource = AuthLocalDataSourceImpl();
-  final Box<UserEntity> userBox = store.box<UserEntity>();
+  final LocalDataSourceImpl localDataSource = LocalDataSourceImpl();
 
   @override
   Future<Either<Exception, UserModel>> login(
@@ -33,7 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Exception, String>> logout() async {
     try {
-      UserEntity? data = await authLocalDataSource.getUser();
+      UserEntity? data = localDataSource.getUser();
       await remoteDataSource.logout(data?.token);
       return right('Logout Sukses');
     } catch (e) {

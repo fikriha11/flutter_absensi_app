@@ -109,11 +109,11 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? token = freezed,
   }) {
     return _then(_$UserModelImpl(
-      freezed == user
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-      freezed == token
+      token: freezed == token
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -124,7 +124,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UserModelImpl implements _UserModel {
-  const _$UserModelImpl(this.user, this.token);
+  const _$UserModelImpl({this.user, this.token});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -167,7 +167,7 @@ class _$UserModelImpl implements _UserModel {
 }
 
 abstract class _UserModel implements UserModel {
-  const factory _UserModel(final User? user, final String? token) =
+  const factory _UserModel({final User? user, final String? token}) =
       _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =

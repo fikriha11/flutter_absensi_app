@@ -21,33 +21,48 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 7754474636518574389),
+      id: const obx_int.IdUid(1, 209577358025366255),
       name: 'UserEntity',
-      lastPropertyId: const obx_int.IdUid(5, 3080546715172991600),
+      lastPropertyId: const obx_int.IdUid(8, 830008120697726677),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 1240299613895302984),
+            id: const obx_int.IdUid(1, 4470129115368571488),
             name: 'id',
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 8278240891892126367),
-            name: 'email',
-            type: 9,
+            id: const obx_int.IdUid(2, 2569732015589095941),
+            name: 'idUser',
+            type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 1082288031435747909),
+            id: const obx_int.IdUid(3, 4740518886815943941),
             name: 'name',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 3739222934177975574),
+            id: const obx_int.IdUid(4, 1206454967976624472),
+            name: 'email',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 1751944474753806786),
             name: 'role',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 3080546715172991600),
+            id: const obx_int.IdUid(6, 7127477388960364437),
+            name: 'faceEmbedding',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 6905757831349152768),
+            name: 'imgUrl',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 830008120697726677),
             name: 'token',
             type: 9,
             flags: 0)
@@ -91,7 +106,7 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(1, 7754474636518574389),
+      lastEntityId: const obx_int.IdUid(1, 209577358025366255),
       lastIndexId: const obx_int.IdUid(0, 0),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
@@ -113,20 +128,28 @@ obx_int.ModelDefinition getObjectBoxModel() {
           object.id = id;
         },
         objectToFB: (UserEntity object, fb.Builder fbb) {
-          final emailOffset =
-              object.email == null ? null : fbb.writeString(object.email!);
           final nameOffset =
               object.name == null ? null : fbb.writeString(object.name!);
+          final emailOffset =
+              object.email == null ? null : fbb.writeString(object.email!);
           final roleOffset =
               object.role == null ? null : fbb.writeString(object.role!);
+          final faceEmbeddingOffset = object.faceEmbedding == null
+              ? null
+              : fbb.writeString(object.faceEmbedding!);
+          final imgUrlOffset =
+              object.imgUrl == null ? null : fbb.writeString(object.imgUrl!);
           final tokenOffset =
               object.token == null ? null : fbb.writeString(object.token!);
-          fbb.startTable(6);
+          fbb.startTable(9);
           fbb.addInt64(0, object.id);
-          fbb.addOffset(1, emailOffset);
+          fbb.addInt64(1, object.idUser);
           fbb.addOffset(2, nameOffset);
-          fbb.addOffset(3, roleOffset);
-          fbb.addOffset(4, tokenOffset);
+          fbb.addOffset(3, emailOffset);
+          fbb.addOffset(4, roleOffset);
+          fbb.addOffset(5, faceEmbeddingOffset);
+          fbb.addOffset(6, imgUrlOffset);
+          fbb.addOffset(7, tokenOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -135,19 +158,29 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final rootOffset = buffer.derefObject(0);
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final emailParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 6);
-          final roleParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 10);
+          final idUserParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 6);
           final nameParam = const fb.StringReader(asciiOptimization: true)
               .vTableGetNullable(buffer, rootOffset, 8);
-          final tokenParam = const fb.StringReader(asciiOptimization: true)
+          final emailParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 10);
+          final roleParam = const fb.StringReader(asciiOptimization: true)
               .vTableGetNullable(buffer, rootOffset, 12);
+          final faceEmbeddingParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 14);
+          final imgUrlParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 16);
+          final tokenParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 18);
           final object = UserEntity(
               id: idParam,
+              idUser: idUserParam,
+              name: nameParam,
               email: emailParam,
               role: roleParam,
-              name: nameParam,
+              faceEmbedding: faceEmbeddingParam,
+              imgUrl: imgUrlParam,
               token: tokenParam);
 
           return object;
@@ -163,19 +196,31 @@ class UserEntity_ {
   static final id =
       obx.QueryIntegerProperty<UserEntity>(_entities[0].properties[0]);
 
-  /// see [UserEntity.email]
-  static final email =
-      obx.QueryStringProperty<UserEntity>(_entities[0].properties[1]);
+  /// see [UserEntity.idUser]
+  static final idUser =
+      obx.QueryIntegerProperty<UserEntity>(_entities[0].properties[1]);
 
   /// see [UserEntity.name]
   static final name =
       obx.QueryStringProperty<UserEntity>(_entities[0].properties[2]);
 
+  /// see [UserEntity.email]
+  static final email =
+      obx.QueryStringProperty<UserEntity>(_entities[0].properties[3]);
+
   /// see [UserEntity.role]
   static final role =
-      obx.QueryStringProperty<UserEntity>(_entities[0].properties[3]);
+      obx.QueryStringProperty<UserEntity>(_entities[0].properties[4]);
+
+  /// see [UserEntity.faceEmbedding]
+  static final faceEmbedding =
+      obx.QueryStringProperty<UserEntity>(_entities[0].properties[5]);
+
+  /// see [UserEntity.imgUrl]
+  static final imgUrl =
+      obx.QueryStringProperty<UserEntity>(_entities[0].properties[6]);
 
   /// see [UserEntity.token]
   static final token =
-      obx.QueryStringProperty<UserEntity>(_entities[0].properties[4]);
+      obx.QueryStringProperty<UserEntity>(_entities[0].properties[7]);
 }

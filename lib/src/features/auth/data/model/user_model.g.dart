@@ -8,10 +8,10 @@ part of 'user_model.dart';
 
 _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
     _$UserModelImpl(
-      json['user'] == null
+      user: json['user'] == null
           ? null
           : User.fromJson(json['user'] as Map<String, dynamic>),
-      json['token'] as String?,
+      token: json['token'] as String?,
     );
 
 Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>

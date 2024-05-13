@@ -23,9 +23,12 @@ class AuthUsecaseImpl implements AuthUseCase {
       showSnackBar(context, 'Login Failed');
     }, (r) {
       UserEntity user = UserEntity(
+        idUser: r.user?.id,
+        name: r.user?.name,
         email: r.user?.email,
         role: r.user?.role,
-        name: r.user?.name,
+        faceEmbedding: r.user?.faceEmbedding,
+        imgUrl: r.user?.imageUrl,
         token: r.token,
       );
       userBox.removeAll();

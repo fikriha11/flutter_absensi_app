@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_app/src/core/extensions/date_time_ext.dart';
+import 'package:flutter_absensi_app/src/features/auth/domain/entities/user_entity.dart';
 import 'package:flutter_absensi_app/src/features/home/presentation/page/attendance_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,14 +8,18 @@ import '../../../../common/colors.dart';
 import '../../../../common/space.dart';
 import '../../../../core/assets/assets.gen.dart';
 import '../../../../core/assets/buttons.dart';
+import '../../../../data/datasource/local_datasource.dart';
 import '../widgets/menu_button.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
   static const String routerName = "home-screen";
+
+  final LocalDataSourceImpl localDataSourceImpl = LocalDataSourceImpl();
 
   @override
   Widget build(BuildContext context) {
+    UserEntity? dataUser = localDataSourceImpl.getUser();
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -41,10 +46,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SpaceWidth(12.0),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Hello, Chopper Sensei',
-                      style: TextStyle(
+                      'Hello, ${dataUser?.name}',
+                      style: const TextStyle(
                         fontSize: 18.0,
                         color: AppColors.white,
                       ),
@@ -202,6 +207,9 @@ class HomeScreen extends StatelessWidget {
                 },
                 label: 'Attendance Using Face ID',
                 icon: Assets.icons.attendance.svg(),
+                color: dataUser?.faceEmbedding != null
+                    ? AppColors.primary
+                    : AppColors.red,
               ),
             ],
           ),

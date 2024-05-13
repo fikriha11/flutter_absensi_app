@@ -36,7 +36,7 @@ final GoRouter routerProvider = GoRouter(
               path: '/',
               name: HomeScreen.routerName,
               pageBuilder: (context, state) =>
-                  const NoTransitionPage(child: HomeScreen()),
+                  NoTransitionPage(child: HomeScreen()),
             ),
           ]),
           StatefulShellBranch(
